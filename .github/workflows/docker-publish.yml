@@ -31,3 +31,12 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/gabicds13/atv9.5:latest
+          
+      - name: Atualizar Azure
+        env:
+          WEBHOOK_URL: ${{ secrets.AZURE_DEPLOY_WEBHOOK_URL }}
+        run: |
+          test -n "$WEBHOOK_URL" || exit 1
+          curl --fail --silent --show-error \
+            -X POST "$WEBHOOK_URL"
+
